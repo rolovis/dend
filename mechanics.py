@@ -28,16 +28,29 @@ def roll(die_num, die_size):
     return roll_list
 
 
-def attack_roll(char, weapon):
+def attack_roll(char):
+    weapon = char.char_equipment['weapon']
     roll_list = roll(char.char_level, char.base_die)
+
+    # print base roll
     for die in roll_list:
         print(die, end=', ')
+
+    # add weapon roll
+    roll_list.extend(roll(weapon.die[0], weapon.die[1]))
+    print('(+{0})'.format(roll_list[len(roll_list) - 1]), end=' ')
     attack = sum(roll_list)
-    if weapon in char.weapon_prof:
+
+    # add proficiency bonus if applicable
+    if weapon.prof in char.weapon_prof:
         bonus = get_proficiency(char.char_level)
         attack += bonus
-        print('(+%s)' % str(bonus), end=' = ')
-    attack += char.get_modifier(char.stats_list[weapon.prof])
+        print('(+{0})'.format(bonus), end=' = ')
+
+    # ???
+    attack += get_modifier(char.weapon_prof.index(weapon.prof))
+
+
     print('%s' % str(attack))
     return attack
 

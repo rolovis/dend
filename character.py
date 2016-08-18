@@ -1,3 +1,4 @@
+import items
 import mechanics
 import races
 
@@ -5,6 +6,9 @@ import races
 class Character(object):
     char_stats = {'strength': 0, 'dexterity': 0, 'constitution': 0,
                   'intelligence': 0, 'wisdom': 0, 'charisma': 0}
+
+    char_equipment = {'weapon': items.none, 'chest': items.none,
+                      'legs': items.none}
 
     def __init__(self, name):
         self.char_name = name.title()
@@ -81,6 +85,11 @@ class Character(object):
                 print(self.get_stats())
             else:
                 print('Invalid input.')
+
+    def equip(self, equipment):
+        equip_type = type(equipment).__name__.lower()
+        if equip_type in self.char_equipment:
+            self.char_equipment[equip_type] = equipment
 
 
 class Rogue(Character):

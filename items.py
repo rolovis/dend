@@ -11,12 +11,19 @@ class Pouch(Item):
 
 
 class Weapon(Item):
-    def __init__(self, name, prof, ability, die):
+    def __init__(self, name, ability, prof,  die):
         super(Weapon, self).__init__()
         self.name = name
-        self.prof = prof
         self.ability = ability
+        self.prof = prof
         self.die = die
 
+    def __str__(self):
+        return '{0}\n{1}d{2} {3}'.format(
+            self.name.title(), self.die[0], self.die[1], self.ability.title())
 
-sword_of_crushing = Weapon('Sword of Crushing', 'simple', 'strength')
+
+none = Weapon('none', 'none', 'none', [1, 1])
+# Weapon list
+
+sword_of_crushing = Weapon('sword of crushing', 'strength', 'simple', [1, 8])

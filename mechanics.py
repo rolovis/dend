@@ -16,9 +16,6 @@ skill_list = {'athletics': 'strength', 'acrobatics': 'dexterity',
 #       roll += character.get_proficiency(char.level)
 
 
-
-
-
 def check(dc, score):
     return True if score >= dc else False
 

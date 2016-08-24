@@ -1,5 +1,6 @@
 import math
 import random
+import classes
 
 
 skill_list = {'athletics': 'strength', 'acrobatics': 'dexterity',
@@ -20,39 +21,42 @@ def check(dc, score):
     return True if score >= dc else False
 
 
-def roll(die_num, die_size):
+def roll(die_num, base_die):
     random.seed()
     roll_list = []
     for i in range(die_num):
-        roll_list.append(random.randint(1, die_size))
+        roll_list.append(random.randint(1, base_die))
     return roll_list
 
 
+def attack(enemy, char, defender):
+    damage = 0
+    weapon = char.equipment['weapon']
+    if check(char.equipment['chest'].ac, attack_roll(char)):
+        damage = sum(roll(weapon.die[0], weapon.die[1]))
+        enemy.hp -= damage
+        print('Took' if defender else 'Did', end=' ')
+        print('{0} damage!'.format(damage))
+        return damage
+
+
 def attack_roll(char):
-    weapon = char.char_equipment['weapon']
-    roll_list = roll(char.char_level, char.base_die)
+    weapon = char.equipment['weapon']
+    roll_list = roll(char.level, char.base_die)
+    final_roll = sum(roll_list)
 
     # print base roll
     for die in roll_list:
-        print(die, end=', ')
-
-    # add weapon roll
-    roll_list.extend(roll(weapon.die[0], weapon.die[1]))
-    print('(+{0})'.format(roll_list[len(roll_list) - 1]), end=' ')
-    attack = sum(roll_list)
+        print(die, end=' ')
 
     # add proficiency bonus if applicable
     if weapon.prof in char.weapon_prof:
-        bonus = get_proficiency(char.char_level)
-        attack += bonus
+        bonus = get_proficiency(char.level)
+        final_roll += bonus
         print('(+{0})'.format(bonus), end=' = ')
 
-    # ???
-    attack += get_modifier(char.weapon_prof.index(weapon.prof))
-
-
-    print('%s' % str(attack))
-    return attack
+    print('{0}'.format(final_roll))
+    return final_roll
 
 
 def get_modifier(level):
@@ -61,3 +65,24 @@ def get_modifier(level):
 
 def get_proficiency(level):
     return math.ceil(level / 4) + 1
+
+
+def add_class(char):
+    class_name = input('Enter your class:\n').title()
+    char.char_class = class_name
+    try:
+        character = getattr(classes, class_name)
+        return character
+    except KeyError:
+        print('Invalid input.')
+        add_class(char)
+
+
+def gen(char):
+    name = input('Enter your name:\n')
+    char.name = name
+    # char.allocate_stats()
+    char.add_stats({'strength': 15})
+    char.add_race()
+    char = add_class(char)
+    return char

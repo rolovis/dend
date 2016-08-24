@@ -4,25 +4,82 @@ import races
 
 
 class Character(object):
-    char_stats = {'strength': 0, 'dexterity': 0, 'constitution': 0,
-                  'intelligence': 0, 'wisdom': 0, 'charisma': 0}
+    """Represents a player character.
 
-    char_equipment = {'weapon': items.none, 'chest': items.none,
-                      'legs': items.none}
+    Contains functions to add and allocate stats,
+    races, classes, skills, and equipment.
+
+    Attributes:
+        stats: A dictionary of a Character's attributes
+        and their scores.
+
+        equipment: A dictionary of a Character's equipment slots
+        and the corresponding equipped item (if any).
+        Default value is items.none.
+
+        name: The name of the Character.
+
+        race: The race of the Character. Needs information
+        from races.py.
+
+        char_class: The class of the Character. A Character represents
+        a classless player character. The gen() function converts a Character
+        to its appropriate subclass.
+
+        level: The level of the Character.
+
+        exp: The amount of experience the Character currently has
+        towards the next level.
+
+        total_hp: The total amount of hit points the Character has.
+
+        total_mp: The total amount of mana points the Character has.
+
+        hp: The current amount of hit points the Character has.
+
+        mp: The current amount of mana points the Character has.
+
+        base_die: The number of sides a Character's base die is.
+        Example: if base_die = 6, the Character rolls 1d6 as his base die."""
+
+    stats = {'strength': 0, 'dexterity': 0, 'constitution': 0,
+             'intelligence': 0, 'wisdom': 0, 'charisma': 0}
+
+    equipment = {'weapon': items.no_weapon, 'chest': items.no_armor,
+                 'legs': items.no_armor}
+
+    name = ''
+    race = ''
+    char_class = ''
+    level = 1
+    exp = 0
+    total_hp = 0
+    hp = total_hp
+    mp = 0
+    mp = mp
+    skills = []
+    base_die = 0
+    ac = 0
 
     def __init__(self, name):
-        self.char_name = name.title()
-        self.char_race = ''
-        self.char_class = ''
-        self.base_die = 2
-        self.char_level = 1
-        self.char_exp = 0
-        self.char_hp = self.get_hp()
-        self.char_mp = 0
-        self.char_skills = []
+        """Initializes a new Character with the given name. Updates
+        the amount of hit points the Character has in total.
+
+        Args:
+            name: The name of the Character."""
+        self.name = name.title()
+        self.hp = self.get_hp()
 
     def print_modifier(self, stat):
-        modifier = mechanics.get_modifier(self.char_stats[stat])
+        """Prints an ability score's modifier. Uses the format (-x) and (+x),
+        where x is a negative or positive modifier, respectively.
+
+        Args:
+            stat: The ability score to retrieve the modifier from.
+
+        Returns:
+            '(-x)' if x is a negative modifier and '(x)' otherwise."""
+        modifier = mechanics.get_modifier(self.stats[stat])
         if modifier > 0:
             modifier = '+' + str(modifier)
         else:
@@ -31,43 +88,63 @@ class Character(object):
         return '(' + modifier + ')'
 
     def get_stats(self):
+        """Returns all of a Character's statistics and their respective
+        modifiers as a formatted string.
+
+        Returns: A string representing all of the Character's attribute
+        scores and modifiers in the format Attribute: Score (Modifier)"""
         stat_string = ''
-        for stat, val in sorted(self.char_stats.items()):
+        for stat, val in sorted(self.stats.items()):
             stat_string += stat.title() + ' : ' + str(val) + ' ' + \
                            self.print_modifier(stat) + '\n'
         return stat_string
 
     def get_hp(self):
+        """Calculates and returns the hit points of a Character using its
+        base die value and constitution modifier.
+
+        Returns: The total amount of hit points for the Character."""
         return self.base_die + mechanics.get_modifier(
-                       self.char_stats['constitution'])
+                       self.stats['constitution'])
 
     def __str__(self):
-        return '%s - Level %s\n%s | %s\nHP: %s  MP: %s\n\n%s' % \
-               (self.char_name, self.char_level, self.char_race, self.char_class,
-                self.char_hp, self.char_mp, self.get_stats())
+        """Generates a formatted string containing a Character's name, level,
+        race, class, hit points, mana points, and attribute scores.
+
+        Returns: The formatted string."""
+        return '{0} - Level {1}\n{2} | {3}\nHP: {4}   MP: {5}\n\n{6}'.format(
+            self.name, self.level, self.race, self.char_class,
+            self.hp, self.mp, self.get_stats())
 
     def add_stats(self, stat_dict):
+        """Takes a dictionary of attribute keys and adds their values
+        to the Character's attribute scores.
+
+        Args:
+            stat_dict: A dictionary where the keys are attributes and the values are
+             scores to be added to the Character's attribute scores."""
+
         for stat, val in stat_dict.items():
-            self.char_stats[stat] += val
+            self.stats[stat] += val
 
     def add_race(self):
         race = input('Enter your race:\n').title()
         try:
             self.add_stats(getattr(races, race).stats)
-            self.char_race = race
+            self.race = race
         except AttributeError:
             print('Invalid input.')
             self.add_race()
 
     def add_level(self):
-        self.char_level += 1
+        self.level += 1
 
     def add_skill(self, name):
-        self.char_skills.append(name)
+        self.skills.append(name)
 
     def allocate_stats(self):
         points = [8, 10, 12, 13, 14, 15]
-        stats = list(self.char_stats.keys())
+        stats = list(self.stats.keys())
 
         while points:
             print('Points to spend:', points)
@@ -79,7 +156,7 @@ class Character(object):
             stat = input('Which stat?\n').lower()
 
             if stat in stats:
-                self.char_stats[stat] += point
+                self.stats[stat] += point
                 points.remove(point)
                 stats.remove(stat)
                 print(self.get_stats())
@@ -88,81 +165,55 @@ class Character(object):
 
     def equip(self, equipment):
         equip_type = type(equipment).__name__.lower()
-        if equip_type in self.char_equipment:
-            self.char_equipment[equip_type] = equipment
-
-
-class Rogue(Character):
-
-    def __init__(self, character):
-        super(Rogue, self).__init__(character.char_name)
-        self.char_race = character.char_race
-        self.char_class = 'Rogue'
-        self.base_die = 8
-        self.char_hp = self.get_hp()
-        self.armor_prof = ['light']
-        self.weapon_prof = ['simple', 'hand crossbow', 'longsword',
-                            'rapier', 'shortsword']
-        self.char_throws = ['dexterity', 'intelligence']
+        if equip_type in self.equipment:
+            self.equipment[equip_type] = equipment
 
 
 class Wizard(Character):
 
     def __init__(self, character):
-        super(Wizard, self).__init__(character.char_name)
-        self.char_race = character.char_race
+        super(Wizard, self).__init__(character.name)
+        self.race = character.race
         self.char_class = 'Wizard'
-        self.base_die = 6
-        self.char_hp = self.get_hp()
+        self.total_hp = self.get_hp()
+        self.hp = self.total_hp
         self.armor_prof = []
         self.weapon_prof = ['dagger', 'dart', 'sling',
                             'quarterstaff', 'light crossbow']
 
         self.char_throws = ['intelligence', 'wisdom']
+        self.base_die = 6
+        self.skills = []
 
 
 class Fighter(Character):
 
     def __init__(self, character):
-        super(Fighter, self).__init__(character.char_name)
-        self.char_race = character.char_race
+        super(Fighter, self).__init__(character.name)
+        self.race = character.race
         self.char_class = 'Fighter'
-        self.base_die = 10
-        self.char_hp = self.get_hp()
+        self.total_hp = self.get_hp()
+        self.hp = self.total_hp
         self.armor_prof = ['light', 'medium', 'heavy']
         self.weapon_prof = ['simple', 'martial']
         self.char_throws = ['strength', 'constitution']
+        self.base_die = 10
+        self.skills = []
 
 
 class Cleric(Character):
 
     def __init__(self, character):
-        super(Cleric, self).__init__(character.char_name)
-        self.char_race = character.char_race
+        super(Cleric, self).__init__(character.name)
+        self.race = character.race
         self.char_class = 'Cleric'
         self.base_die = 8
-        self.char_hp = self.get_hp()
+        self.total_hp = self.get_hp()
+        self.hp = self.total_hp
         self.armor_prof = ['light', 'medium']
         self.weapon_prof = ['simple']
         self.char_throws = ['wisdom', 'charisma']
+        self.skills = []
 
 
-def add_class(character):
-    class_name = input('Enter your class:\n').title()
-    character.char_class = class_name
-    try:
-        character = globals()[class_name](character)
-        return character
-    except KeyError:
-        print('Invalid input.')
-        add_class(character)
 
-
-def gen():
-    name = input('Enter your name:\n')
-    player = Character(name)
-    # player.allocate_stats()
-    player.add_stats({'strength': 15})
-    player.add_race()
-    player = add_class(player)
-    return player

@@ -1,6 +1,12 @@
 class Item(object):
+    """An item is an object that can either be stored or equipped
+    by a Character. All Items have a base value and a name."""
+
     def __init__(self):
+        """Initializes an Item with a dummy name and base value."""
+
         self.name = ''
+        self.value = 0
 
 
 class Pouch(Item):
@@ -11,6 +17,22 @@ class Pouch(Item):
 
 
 class Weapon(Item):
+    """A Character's primary form of dealing damage.
+
+    A Weapon is an object that is stored in a Character's
+    equipment dictionary. The equipped Weapon determines how much
+    damage a Character has the potential to deal.
+
+    Attributes:
+        name: The name of the Weapon.
+
+        ability: The attribute associated with using the Weapon.
+
+        prof: The proficiency type of the Weapon.
+        Example: Simple, Martial
+
+        die: The die strength of a Weapon's damage."""
+
     def __init__(self, name, ability, prof,  die):
         super(Weapon, self).__init__()
         self.name = name

@@ -168,6 +168,40 @@ class Character(object):
         if equip_type in self.equipment:
             self.equipment[equip_type] = equipment
 
+def add_class(char):
+    class_name = input('Enter your class:\n').title()
+    char.char_class = class_name
+    try:
+        character = globals()[class_name](char)
+        return character
+    except KeyError:
+        print('Invalid input.')
+        add_class(char)
+
+
+def gen(char):
+    name = input('Enter your name:\n')
+    char.name = name
+    # char.allocate_stats()
+    char.add_stats({'strength': 15})
+    char.add_race()
+    char = add_class(char)
+    return char
+
+class Rogue(Character):
+
+    def __init__(self, char):
+        super(Rogue, self).__init__(char.name)
+        self.race = char.race
+        self.char_class = 'Rogue'
+        self.base_die = 8
+        self.total_hp = self.get_hp()
+        self.hp = self.total_hp
+        self.armor_prof = ['light']
+        self.weapon_prof = ['simple', 'hand crossbow', 'longsword',
+                            'rapier', 'shortsword']
+        self.char_throws = ['dexterity', 'intelligence']
+        self.skills = []
 
 class Wizard(Character):
 

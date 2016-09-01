@@ -1,6 +1,5 @@
 import math
 import random
-import classes
 
 
 skill_list = {'athletics': 'strength', 'acrobatics': 'dexterity',
@@ -12,9 +11,6 @@ skill_list = {'athletics': 'strength', 'acrobatics': 'dexterity',
               'medicine': 'wisdom', 'perception': 'wisdom',
               'deception': 'charisma', 'performance': 'charisma',
               'intimidation': 'charisma', 'persuasion': 'charisma'}
-
-# skill_modifier(skill): if skill in char.skill_list:
-#       roll += character.get_proficiency(char.level)
 
 
 def check(dc, score):
@@ -66,23 +62,3 @@ def get_modifier(level):
 def get_proficiency(level):
     return math.ceil(level / 4) + 1
 
-
-def add_class(char):
-    class_name = input('Enter your class:\n').title()
-    char.char_class = class_name
-    try:
-        character = getattr(classes, class_name)
-        return character
-    except KeyError:
-        print('Invalid input.')
-        add_class(char)
-
-
-def gen(char):
-    name = input('Enter your name:\n')
-    char.name = name
-    # char.allocate_stats()
-    char.add_stats({'strength': 15})
-    char.add_race()
-    char = add_class(char)
-    return char

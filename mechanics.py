@@ -16,6 +16,30 @@ skill_list = {'athletics': 'strength', 'acrobatics': 'dexterity',
 def check(dc, score):
     return True if score >= dc else False
 
+def skill_check(dc, skill, character):
+    """Determines whether a given skill check succeeds.
+
+    skill_check takes a difficulty score, the skill associated with the roll.
+    If the given Character has proficiency in that skill, the proficiency score
+    for that Character is added to the total roll. The roll is then checked
+    against the difficulty score using the check function.
+
+    Args:
+        dc: The difficulty level of the skill check.
+
+        skill: The skill associated with the check.
+
+        character: The Character performing the check.
+
+    Returns:
+        True if the character's score is greater than or equal to
+        the given difficulty score, and False otherwise."""
+
+    score = sum(roll(1, 20))
+    if character.char_skills[skill]:
+        score += get_proficiency(character.level)
+    return check(dc, score)
+
 
 def roll(die_num, base_die):
     random.seed()

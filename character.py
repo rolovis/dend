@@ -190,6 +190,11 @@ def gen(char):
 
 class Rogue(Character):
 
+    class_skills = ['acrobatics', 'athletics', 'deception',
+                    'insight', 'intimidation', 'investigation',
+                    'perception', 'performance', 'persuasion',
+                    'sleight of hand', 'stealth']
+
     def __init__(self, char):
         super(Rogue, self).__init__(char.name)
         self.race = char.race
@@ -204,6 +209,9 @@ class Rogue(Character):
         self.skills = []
 
 class Wizard(Character):
+
+    class_skills = ['arcana', 'history', 'insight',
+                    'investigation', 'medicine', 'religion']
 
     def __init__(self, character):
         super(Wizard, self).__init__(character.name)
@@ -222,6 +230,10 @@ class Wizard(Character):
 
 class Fighter(Character):
 
+    class_skills = ['acrobatics', 'animal handling', 'athletics',
+                    'history', 'insight', 'intimidation',
+                    'perception', 'survival']
+
     def __init__(self, character):
         super(Fighter, self).__init__(character.name)
         self.race = character.race
@@ -237,6 +249,9 @@ class Fighter(Character):
 
 class Cleric(Character):
 
+    class_skills = ['history', 'insight', 'medicine',
+                    'persuasion', 'religion']
+
     def __init__(self, character):
         super(Cleric, self).__init__(character.name)
         self.race = character.race
@@ -247,7 +262,7 @@ class Cleric(Character):
         self.armor_prof = ['light', 'medium']
         self.weapon_prof = ['simple']
         self.char_throws = ['wisdom', 'charisma']
-        self.skills = []
+        self.char_skills = []
 
 
 

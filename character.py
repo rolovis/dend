@@ -58,6 +58,7 @@ class Character(object):
     mp = 0
     mp = mp
     skills = []
+    class_skills = []
     base_die = 0
     ac = 0
 
@@ -140,7 +141,8 @@ class Character(object):
         self.level += 1
 
     def add_skill(self, name):
-        self.skills.append(name)
+        if name in self.class_skills:
+            self.skills.append(name)
 
     def allocate_stats(self):
         points = [8, 10, 12, 13, 14, 15]

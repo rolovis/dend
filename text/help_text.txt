@@ -1,0 +1,17 @@
+help abilities
+Abilities:
+Strength
+Dexterity
+Constitution
+Intelligence
+Wisdom
+Charisma
+END
+
+help classes
+END
+
+help skills
+test
+test
+test again

@@ -1,3 +1,6 @@
+#!python3
+
+
 class Dwarf(object):
     male = ['Adrik', 'Alberich', 'Baern', 'Barendd', 'Brottor',
             'Bruenor', 'Dain', 'Darrak', 'Delg', 'Eberk',

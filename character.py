@@ -1,5 +1,6 @@
 #!python3
 
+import interface
 import items
 import mechanics
 import races
@@ -44,20 +45,21 @@ class Character(object):
         base_die: The number of sides a Character's base die is.
         Example: if base_die = 6, the Character rolls 1d6 as his base die."""
 
+    stats = {'strength': 0, 'dexterity': 0, 'constitution': 0,
+                  'intelligence': 0, 'wisdom': 0, 'charisma': 0}
+
+    equipment = {'weapon': items.no_weapon, 'chest': items.no_armor,
+                      'legs': items.no_armor}
+    name = ''
+    race = ''
+
     def __init__(self, name):
         """Initializes a new Character with the given name. Updates
         the amount of hit points the Character has in total.
 
         Args:
             name: The name of the Character."""
-        self.stats = {'strength': 0, 'dexterity': 0, 'constitution': 0,
-                      'intelligence': 0, 'wisdom': 0, 'charisma': 0}
-
-        self.equipment = {'weapon': items.no_weapon, 'chest': items.no_armor,
-                          'legs': items.no_armor}
         self.name = name.title()
-        self.name = ''
-        self.race = ''
         self.char_class = ''
         self.level = 1
         self.exp = 0
@@ -155,13 +157,16 @@ class Character(object):
                 print('Invalid input.')
                 continue
 
-            stat = input('Which stat?\n').lower()
+            stat = input('Which stat? Type '
+                         '\'help abilities\' for help\n').lower()
 
             if stat in stats:
                 self.stats[stat] += point
                 points.remove(point)
                 stats.remove(stat)
                 print(self.get_stats())
+            elif stat == 'help abilities':
+                print(interface.help_check(stat))
             else:
                 print('Invalid input.')
 
@@ -172,10 +177,18 @@ class Character(object):
 
 
 def add_class(char):
-    class_name = input('Enter your class:\n').title()
-    char.char_class = class_name
+    class_name = input('Enter your class. Type '
+                       '\'help classes\' for help\n')
+
+    while class_name == 'help classes':
+        print(interface.help_check(class_name))
+        class_name = input('Enter your class. Type '
+                           '\'help classes\' for help\n')
+
     try:
+        class_name = class_name.title()
         character = globals()[class_name](char)
+        character.char_class = class_name
         return character
     except KeyError:
         print('Invalid input.')
@@ -194,11 +207,6 @@ def gen(char):
 
 class Rogue(Character):
 
-    class_skills = ['acrobatics', 'athletics', 'deception',
-                    'insight', 'intimidation', 'investigation',
-                    'perception', 'performance', 'persuasion',
-                    'sleight of hand', 'stealth']
-
     def __init__(self, char):
         super(Rogue, self).__init__(char.name)
         self.race = char.race
@@ -207,6 +215,10 @@ class Rogue(Character):
         self.total_hp = self.get_hp()
         self.hp = self.total_hp
         self.armor_prof = ['light']
+        self.class_skills = ['acrobatics', 'athletics', 'deception',
+                             'insight', 'intimidation', 'investigation',
+                             'perception', 'performance', 'persuasion',
+                             'sleight of hand', 'stealth']
         self.weapon_prof = ['simple', 'hand crossbow', 'longsword',
                             'rapier', 'shortsword']
         self.char_throws = ['dexterity', 'intelligence']

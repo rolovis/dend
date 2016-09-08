@@ -1,3 +1,5 @@
+#!python3
+
 import items
 import mechanics
 import races
@@ -42,34 +44,32 @@ class Character(object):
         base_die: The number of sides a Character's base die is.
         Example: if base_die = 6, the Character rolls 1d6 as his base die."""
 
-    stats = {'strength': 0, 'dexterity': 0, 'constitution': 0,
-             'intelligence': 0, 'wisdom': 0, 'charisma': 0}
-
-    equipment = {'weapon': items.no_weapon, 'chest': items.no_armor,
-                 'legs': items.no_armor}
-
-    name = ''
-    race = ''
-    char_class = ''
-    level = 1
-    exp = 0
-    total_hp = 0
-    hp = total_hp
-    mp = 0
-    mp = mp
-    skills = []
-    class_skills = []
-    base_die = 0
-    ac = 0
-
     def __init__(self, name):
         """Initializes a new Character with the given name. Updates
         the amount of hit points the Character has in total.
 
         Args:
             name: The name of the Character."""
+        self.stats = {'strength': 0, 'dexterity': 0, 'constitution': 0,
+                      'intelligence': 0, 'wisdom': 0, 'charisma': 0}
+
+        self.equipment = {'weapon': items.no_weapon, 'chest': items.no_armor,
+                          'legs': items.no_armor}
         self.name = name.title()
+        self.name = ''
+        self.race = ''
+        self.char_class = ''
+        self.level = 1
+        self.exp = 0
+        self.base_die = 0
+        self.total_hp = 0
+        self.hp = self.total_hp
         self.hp = self.get_hp()
+        self.total_mp = 0
+        self.mp = self.total_mp
+        self.skills = []
+        self.class_skills = []
+        self.ac = 0
 
     def print_modifier(self, stat):
         """Prints an ability score's modifier. Uses the format (-x) and (+x),
@@ -170,6 +170,7 @@ class Character(object):
         if equip_type in self.equipment:
             self.equipment[equip_type] = equipment
 
+
 def add_class(char):
     class_name = input('Enter your class:\n').title()
     char.char_class = class_name
@@ -190,6 +191,7 @@ def gen(char):
     char = add_class(char)
     return char
 
+
 class Rogue(Character):
 
     class_skills = ['acrobatics', 'athletics', 'deception',
@@ -209,6 +211,7 @@ class Rogue(Character):
                             'rapier', 'shortsword']
         self.char_throws = ['dexterity', 'intelligence']
         self.skills = []
+
 
 class Wizard(Character):
 

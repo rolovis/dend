@@ -1,17 +1,40 @@
 help abilities
 Abilities:
-Strength
-Dexterity
-Constitution
-Intelligence
-Wisdom
-Charisma
+
+    Strength - How hard you hit.
+    Dexterity - How agile you are.
+    Constitution - How hard you can be hit.
+    Intelligence - How much you know or remember.
+    Wisdom - How insightful or perceptive you are.
+    Charisma - How much you can influence people.
 END
 
 help classes
+Rogues:
+
+    Rogues are cool. They can pick pockets and backflip and shit.
+    Fast, deadly, and manipulative.
+        'Stabby stabby, here comes Mr. Grabby!'
+
+Clerics:
+
+    Clerics are useful. If you can deal with their annoying self-righteous
+    attitude, you'll learn to love them.
+        'If you wish to be healed, to God you must yield!' (asshole)
 END
 
 help skills
-test
-test
-test again
+List of skills:
+    Acrobatics
+    Animal Training
+    Athletics
+    Perception
+
+Type 'help <skill>' for more info
+END
+
+help acrobatics
+Acrobatics:
+
+    Acrobatics represents your body's agility. Dodge traps! Sidestep attacks!
+    Backflip off of a horse! The possibilities are endless.

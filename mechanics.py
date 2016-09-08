@@ -1,7 +1,7 @@
 import math
 import random
 
-# test
+# test twat
 
 skill_list = {'athletics': 'strength', 'acrobatics': 'dexterity',
               'sleight of hand': 'dexterity', 'stealth': 'dexterity',
@@ -17,8 +17,9 @@ skill_list = {'athletics': 'strength', 'acrobatics': 'dexterity',
 def check(dc, score):
     return True if score >= dc else False
 
+
 def ability_check(dc, ability, character, skill=''):
-    '''Determines whether a given skill check succeeds.
+    """Determines whether a given skill check succeeds.
 
     skill_check takes a difficulty score, the skill associated with the roll.
     If the given Character has proficiency in that skill, the proficiency score
@@ -34,7 +35,7 @@ def ability_check(dc, ability, character, skill=''):
 
     Returns:
         True if the character's score is greater than or equal to
-        the given difficulty score, and False otherwise.'''
+        the given difficulty score, and False otherwise."""
 
     score = sum(roll(1, 20)) + get_modifier(character.stats[ability])
     print(score)
@@ -83,14 +84,14 @@ def attack_roll(char):
 
 
 def get_modifier(score):
-    '''Calculates and returns the ability modifier for the given score.'''
+    """Calculates and returns the ability modifier for the given score."""
 
     return math.floor((score - 10) / 2)
 
 
 def get_proficiency(level):
-    '''Calculates and returns a Character's proficiency bonus
-    based on the Character's level.'''
+    """Calculates and returns a Character's proficiency bonus
+    based on the Character's level."""
 
     return math.ceil(level / 4) + 1
 

@@ -2,6 +2,7 @@ import re
 
 help_file = open('./text/help_text.txt', 'r').readlines()
 
+
 def help_check(text):
     find = re.search(r'help \w*', text, re.I)
     if find:
@@ -18,4 +19,3 @@ def help_check(text):
         return help_string
 
     return 'No help available.\n'
-

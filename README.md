@@ -4,11 +4,7 @@
 
 - Add/incorporate basic items
 
-- ~~Add/incorporate basic weapons~~
-
 - Add/incorporate defense
-
-- ~~Fix attack roll function~~
 
 - Clean up Character class
 
@@ -19,3 +15,13 @@
 - Add 'help' information for commands
 
 - Random names for NPCs
+
+## polish:
+
+- ~~Add/incorporate basic weapons~~
+
+- ~~Fix attack roll function~~
+
+## Polish:
+
+- Sausage

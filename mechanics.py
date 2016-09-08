@@ -1,7 +1,8 @@
+#!python3
+
 import math
 import random
 
-# test twat
 
 skill_list = {'athletics': 'strength', 'acrobatics': 'dexterity',
               'sleight of hand': 'dexterity', 'stealth': 'dexterity',
@@ -18,7 +19,7 @@ def check(dc, score):
     return True if score >= dc else False
 
 
-def ability_check(dc, ability, character, skill=''):
+def ability_check(dc, attribute, character, skill=''):
     """Determines whether a given skill check succeeds.
 
     skill_check takes a difficulty score, the skill associated with the roll.
@@ -29,6 +30,8 @@ def ability_check(dc, ability, character, skill=''):
     Args:
         dc: The difficulty level of the skill check.
 
+        attribute: The attribute the roll corresponds to.
+
         skill: The skill associated with the check.
 
         character: The Character performing the check.
@@ -37,10 +40,11 @@ def ability_check(dc, ability, character, skill=''):
         True if the character's score is greater than or equal to
         the given difficulty score, and False otherwise."""
 
-    score = sum(roll(1, 20)) + get_modifier(character.stats[ability])
-    print(score)
+    score = sum(roll(1, 20)) + get_modifier(character.stats[attribute])
+    print('Raw score {0}'.format(score))
     if skill in character.skills:
         score += get_proficiency(character.level)
+        print('Proficiency {0}'.format(get_proficiency(character.level)))
     print(dc, score)
     return check(dc, score)
 

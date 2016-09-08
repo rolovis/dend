@@ -6,3 +6,4 @@ class Ability(object):
     def use(self, player):
         pass
 
+# test

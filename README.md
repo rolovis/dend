@@ -1,4 +1,4 @@
-# not-an-rpg-ripoff
+# NOT an rpg ripoff
 
 ## Important:
 

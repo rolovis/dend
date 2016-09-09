@@ -40,8 +40,12 @@ def ability_check(dc, attribute, character, skill=''):
         True if the character's score is greater than or equal to
         the given difficulty score, and False otherwise."""
 
-    score = sum(roll(1, 20)) + get_modifier(character.stats[attribute])
+    score = sum(roll(1, 20))
+    mod = get_modifier(character.stats[attribute])
     print('Raw score {0}'.format(score))
+    print('Modifier {0}'.format(mod))
+    score = score + mod
+
     if skill in character.skills:
         score += get_proficiency(character.level)
         print('Proficiency {0}'.format(get_proficiency(character.level)))

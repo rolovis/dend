@@ -131,8 +131,12 @@ class Character(object):
             self.stats[stat] += val
 
     def add_race(self):
-        race = input('Enter your race:\n').title()
+        race = input('Enter your race. Type \'help races\' for more info\n')
+        while race == 'help races':
+            print(interface.help_check(race))
+            race = input('Enter your race. Type \'help races\' for more info\n')
         try:
+            race = race.title()
             self.add_stats(getattr(races, race).stats)
             self.race = race
         except AttributeError:
@@ -196,10 +200,7 @@ def add_class(char):
 
 
 def gen(char):
-    name = input('Enter your name:\n')
-    char.name = name
     # char.allocate_stats()
-    char.add_stats({'strength': 15})
     char.add_race()
     char = add_class(char)
     return char

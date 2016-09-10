@@ -61,16 +61,21 @@ class Character(object):
             name: The name of the Character."""
         self.name = name.title()
         self.char_class = ''
+
         self.level = 1
         self.exp = 0
         self.base_die = 0
+
         self.total_hp = 0
         self.hp = self.total_hp
         self.hp = self.get_hp()
         self.total_mp = 0
         self.mp = self.total_mp
+
         self.skills = []
         self.class_skills = []
+        self.skill_num = 0
+
         self.ac = 0
 
     def print_modifier(self, stat):
@@ -115,9 +120,15 @@ class Character(object):
         race, class, hit points, mana points, and attribute scores.
 
         Returns: The formatted string."""
-        return '{0} - Level {1}\n{2} | {3}\nHP: {4}   MP: {5}\n\n{6}'.format(
+
+        char_str = '\n{0} - Level {1}\n{2} | {3}\nHP: {4}   MP: {5}\n\n{6}\n'.format(
             self.name, self.level, self.race, self.char_class,
             self.hp, self.mp, self.get_stats())
+        char_str += 'Skills:\n\n'
+        for skill in self.skills:
+            char_str += skill.title() + '\n'
+
+        return char_str
 
     def add_stats(self, stat_dict):
         """Takes a dictionary of attribute keys and adds their values
@@ -146,9 +157,16 @@ class Character(object):
     def add_level(self):
         self.level += 1
 
-    def add_skill(self, name):
-        if name in self.class_skills:
+    def add_skills(self, name):
+        if name in self.class_skills and name not in self.skills:
             self.skills.append(name)
+        else:
+            print('Invalid input\n')
+
+    def allocate_skills(self):
+        while len(self.skills) < self.skill_num:
+            skill = input('Enter a skill. Type \'help skills\' for more info\n')
+            self.add_skills(skill)
 
     def allocate_stats(self):
         points = [8, 10, 12, 13, 14, 15]
@@ -203,6 +221,7 @@ def gen(char):
     # char.allocate_stats()
     char.add_race()
     char = add_class(char)
+    char.allocate_skills()
     return char
 
 
@@ -224,12 +243,11 @@ class Rogue(Character):
                             'rapier', 'shortsword']
         self.char_throws = ['dexterity', 'intelligence']
         self.skills = []
+        self.skill_num = 4
 
 
 class Wizard(Character):
 
-    class_skills = ['arcana', 'history', 'insight',
-                    'investigation', 'medicine', 'religion']
 
     def __init__(self, character):
         super(Wizard, self).__init__(character.name)
@@ -242,15 +260,15 @@ class Wizard(Character):
                             'quarterstaff', 'light crossbow']
 
         self.char_throws = ['intelligence', 'wisdom']
+        self.class_skills = ['arcana', 'history', 'insight',
+                             'investigation', 'medicine', 'religion']
         self.base_die = 6
         self.skills = []
+        self.skill_num = 2
 
 
 class Fighter(Character):
 
-    class_skills = ['acrobatics', 'animal handling', 'athletics',
-                    'history', 'insight', 'intimidation',
-                    'perception', 'survival']
 
     def __init__(self, character):
         super(Fighter, self).__init__(character.name)
@@ -261,14 +279,16 @@ class Fighter(Character):
         self.armor_prof = ['light', 'medium', 'heavy']
         self.weapon_prof = ['simple', 'martial']
         self.char_throws = ['strength', 'constitution']
+        self.class_skills = ['acrobatics', 'animal handling', 'athletics',
+                             'history', 'insight', 'intimidation',
+                             'perception', 'survival']
         self.base_die = 10
         self.skills = []
+        self.skill_num = 2
 
 
 class Cleric(Character):
 
-    class_skills = ['history', 'insight', 'medicine',
-                    'persuasion', 'religion']
 
     def __init__(self, character):
         super(Cleric, self).__init__(character.name)
@@ -280,7 +300,8 @@ class Cleric(Character):
         self.armor_prof = ['light', 'medium']
         self.weapon_prof = ['simple']
         self.char_throws = ['wisdom', 'charisma']
+        self.class_skills = ['history', 'insight', 'medicine',
+                             'persuasion', 'religion']
         self.char_skills = []
-
-
+        self.skill_num = 2
 

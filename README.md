@@ -8,13 +8,17 @@
 
 - Clean up Character class
 
-- Add ability modifier to skill check
+- ~~Add ability modifier to skill check~~
 
 ## Less important:
 
 - Add 'help' information for commands
 
-- Random names for NPCs
+- Random names
+
+- Inventory system
+
+- Bestiary
 
 ## polish:
 

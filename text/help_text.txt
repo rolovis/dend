@@ -9,6 +9,16 @@ Abilities:
     Charisma - How much you can influence people.
 END
 
+help races
+Dwarf:
+
+    Dwarves are short, drunk, and tough.
+
+Elf:
+
+    Elves are tall, sober, and girly.
+END
+
 help classes
 Rogues:
 
